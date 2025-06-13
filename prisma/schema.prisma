@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model department {
+  id              Int     @id @default(autoincrement())
+  department_name String? @db.VarChar(255)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model device {
+  id              Int       @id @default(autoincrement())
+  device_id       String?   @db.VarChar(50)
+  serial_no       String?   @db.VarChar(50)
+  device_brand    String?   @db.VarChar(255)
+  device_model    String?   @db.VarChar(255)
+  device_name     String?   @db.VarChar(255)
+  memory          String?   @db.VarChar(50)
+  cpu             String?   @db.VarChar(100)
+  harddisk        String?   @db.VarChar(100)
+  monitor         String?   @db.VarChar(100)
+  mouse           String?   @db.VarChar(255)
+  keyboard        String?   @db.VarChar(255)
+  ex_drive        String?   @db.VarChar(255)
+  hardware_other  String?   @db.Text
+  other_detail    String?   @db.VarChar(255)
+  device_ip       String?   @db.VarChar(100)
+  date_use        DateTime? @db.Date
+  date_expire     DateTime? @db.Date
+  device_price    Float?
+  device_docs     String?   @db.VarChar(50)
+  vender          String?   @db.VarChar(255)
+  warranty        String?   @db.VarChar(255)
+  device_status   String    @default("enable") @db.VarChar(100)
+  device_type_id  Int
+  department_id   Int
+  employee_id     Int?
+  image           String?   @db.VarChar(255)
+  mac             String?   @db.VarChar(255)
+  software        String?   @db.VarChar(1000)
+  software_sn     String?   @db.Text
+  software_detail String?   @db.VarChar(1000)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model device_type {
+  id          Int     @id @default(autoincrement())
+  device_type String? @db.VarChar(45)
+}
+
+model employee {
+  id            Int     @id @default(autoincrement())
+  user_fullname String? @db.VarChar(45)
+  user_position String? @db.VarChar(100)
+  user_email    String? @db.VarChar(255)
+  user_phone    String? @db.VarChar(100)
+  department_id Int
+  username      String? @db.VarChar(255)
+  password_hash String? @db.VarChar(255)
+  role          String  @db.VarChar(100)
+  auth_key      String? @db.VarChar(255)
+  created_at    Int
+  updated_at    Int
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model job {
+  id               Int       @id @default(autoincrement())
+  job_number       String?   @db.VarChar(100)
+  job_date         DateTime? @db.DateTime(0)
+  job_detail       String?   @db.VarChar(1000)
+  job_start_date   DateTime? @db.DateTime(0)
+  job_success_date DateTime? @db.DateTime(0)
+  job_how_to_fix   String?   @db.VarChar(1000)
+  price            Int?
+  job_status       String?   @db.VarChar(45)
+  job_employee_id  Int
+  job_type_id      Int?
+  device_id        Int?
+  user_id          Int?
+  phone            String?   @db.VarChar(100)
+  request_file     String?   @db.VarChar(255)
+  success_file     String?   @db.VarChar(255)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model job_type {
+  id            Int     @id @default(autoincrement())
+  job_type_name String? @db.VarChar(45)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model migration {
+  version    String @db.VarChar(180)
+  apply_time Int?
+
+  @@ignore
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model software_detail {
+  id               Int    @id @default(autoincrement())
+  software_type_id Int
+  software_detail  String @db.VarChar(255)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model software_type {
+  id            Int    @id @default(autoincrement())
+  software_type String @db.VarChar(100)
+}
+
+model system {
+  id             Int    @id
+  line_token     String @db.VarChar(255)
+  login_required Int    @default(0)
+}
+
+model user {
+  id            Int     @id @default(autoincrement())
+  fullname      String  @db.VarChar(255)
+  username      String  @db.VarChar(255)
+  position      String? @db.VarChar(255)
+  email         String? @db.VarChar(60)
+  password_hash String  @db.VarChar(60)
+  auth_key      String? @db.VarChar(255)
+  created_at    Int
+  updated_at    Int
+  role          String  @db.VarChar(45)
+}
